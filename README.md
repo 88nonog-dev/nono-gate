@@ -1,118 +1,69 @@
 # Nono-Gate
 
-Deterministic Security Decision Gate for CI/CD
+Deterministic CI/CD Security Governance Architecture
 
-Nono-Gate is a security decision engine designed to make security outcomes deterministic, auditable, and verifiable in modern DevSecOps pipelines.
+Nono-Gate is a deterministic governance architecture for CI/CD pipelines that makes security release decisions provable, replay-verifiable, and independently auditable.
 
-Instead of relying on opaque scanner results, Nono-Gate produces cryptographically verifiable security decisions backed by structured evidence.
+It does not replace scanners.
+It operates as a decision-verification layer between security findings (such as SARIF outputs) and the release boundary.
 
----
+Problem
 
-## Why Nono-Gate
+Modern CI/CD security workflows generate results that are:
 
-Modern CI security tools produce results that are often:
+- difficult to reproduce
+- difficult to audit
+- difficult to justify later
+- impossible to verify independently
 
-- Non-deterministic
-- Hard to reproduce
-- Difficult to audit
-- Impossible to verify independently
+Nono-Gate solves this by transforming the decision itself into a verifiable artifact.
 
-Nono-Gate solves this by producing a deterministic decision artifact supported by:
+Core Capabilities
 
-- Evidence bundles
-- Policy evaluation
-- Ledger transparency
-- Reproducible verification
+- deterministic policy-based decision evaluation
+- cryptographically bound evidence artifacts
+- evidence root generation
+- replay-verifiable decision outputs
+- append-only governance ledger
+- Merkle-based transparency integrity
+- independent auditor verification
 
----
+Architecture
 
-## Core Concepts
+Security findings -> policy evaluation -> deterministic decision -> evidence bundle -> ledger entry -> replay verification
 
-### Security Decision
-
-Each run produces a decision artifact:
+Key Artifacts
 
 decision.json
-
-This file contains the final security decision for a build or change.
-
----
-
-### Evidence Bundle
-
-Every decision is backed by evidence:
-
-EVIDENCE_BUNDLE.zip
-
-Evidence may include:
-
-- SARIF scan results
-- normalized signals
-- diffs
-- metadata
-
----
-
-### Deterministic Verification
-
-Anyone can independently verify a decision.
-
-Example:
-
-./demo/VERIFY_ONLY.ps1
-
----
-
-### Transparency Ledger
-
-Security decisions are appended to a governance ledger:
-
+decision-attestation.json
+decision-provenance.json
+EVIDENCE_ROOT_SHA256.txt
 governance-ledger.ndjson
+LEDGER_MERKLE_ROOT_SHA256.txt
 
-This enables tamper detection and auditability.
+Demo
 
----
-
-## Demo
-
-Run the full proof demo:
+Run demo:
 
 ./demo/RUN_PROOF_DEMO.ps1
 
-Verify a decision:
+Verify decision:
 
 ./demo/VERIFY_ONLY.ps1
 
----
+Repository Structure
 
-## Project Structure
+engine/  core governance engine
+demo/    runnable demo
+docs/    architecture documentation
+tests/   verification tests
+examples/ sample evidence
 
-engine/      core security engine  
-demo/        runnable demos  
-docs/        documentation  
-examples/    sample evidence & policies  
-tests/       verification tests  
+Status
 
----
+Research prototype for deterministic DevSecOps governance.
 
-## Status
+Start here
 
-Research prototype for security and DevSecOps experimentation.
+See START_HERE.md
 
----
-
-## Contributing
-
-See CONTRIBUTING.md
-
----
-
-## Security
-
-See SECURITY.md
-
----
-
-## License
-
-See LICENSE
