@@ -1,157 +1,68 @@
-# Nono-Gate
+﻿# NONO-GATE
 
-Deterministic CI/CD Security Governance Architecture
+Deterministic Security Governance for CI/CD Decisions
 
-Nono-Gate is a deterministic governance architecture for CI/CD pipelines that makes security release decisions provable, replay-verifiable, and independently auditable.
+Nono-Gate is a lightweight governance layer designed to make security decisions in CI/CD pipelines verifiable, reproducible, and independent from CI logs.
 
-It does not replace scanners.
-It operates as a decision-verification layer between security findings (such as SARIF outputs) and the release boundary.
+Instead of relying on pipeline logs as proof, Nono-Gate produces deterministic artifacts that can be independently validated.
 
-Problem
+---
 
-Modern CI/CD security workflows generate results that are:
+# Why Nono-Gate
 
-- difficult to reproduce
-- difficult to audit
-- difficult to justify later
-- impossible to verify independently
+Most CI pipelines generate security reports, but those reports are not proof.
 
-Nono-Gate solves this by transforming the decision itself into a verifiable artifact.
+Logs can be modified, pipelines can be misconfigured, and results can change depending on execution context.
 
-Core Capabilities
+Nono-Gate introduces a different model:
 
-- deterministic policy-based decision evaluation
-- cryptographically bound evidence artifacts
-- evidence root generation
-- replay-verifiable decision outputs
-- append-only governance ledger
-- Merkle-based transparency integrity
-- independent auditor verification
+Security decisions must produce verifiable artifacts.
 
-Architecture
+Those artifacts can later be validated without re-running the entire pipeline.
 
-Security findings -> policy evaluation -> deterministic decision -> evidence bundle -> ledger entry -> replay verification
+---
 
-Key Artifacts
+# What Nono-Gate Does
 
-decision.json
-decision-attestation.json
-decision-provenance.json
-EVIDENCE_ROOT_SHA256.txt
-governance-ledger.ndjson
-LEDGER_MERKLE_ROOT_SHA256.txt
+Nono-Gate acts as a governance layer between security scanners and release workflows.
 
-Demo
+It performs the following steps:
 
-Run demo:
+1. Parse scanner results (SARIF input)
+2. Evaluate findings through a consensus engine
+3. Produce a deterministic security decision
+4. Generate an evidence root
+5. Append a transparency log entry
+6. Allow independent verification of the decision
 
-./demo/RUN_PROOF_DEMO.ps1
+This allows security decisions to be treated as verifiable records rather than ephemeral pipeline output.
 
-Verify decision:
+---
 
-./demo/VERIFY_ONLY.ps1
+# Architecture Overview
 
-Repository Structure
+Scanner Results  
+↓  
+Security Evaluation  
+↓  
+Deterministic Decision  
+↓  
+Evidence Root + Ledger  
+↓  
+Independent Verification
 
-engine/  core governance engine
-demo/    runnable demo
-docs/    architecture documentation
-tests/   verification tests
-examples/ sample evidence
+Nono-Gate sits between detection tooling and release governance.
 
-Status
+---
 
-Research prototype for deterministic DevSecOps governance.
+# Demo
 
-Start here
+Clone the repository:
 
-See START_HERE.md
-
-
-
-## Architecture Overview
-
-Nono-Gate sits between security scanners and the release boundary.
-
-Scanner Outputs (SARIF / Signals)
-            ?
-     Policy Evaluation
-            ?
- Deterministic Decision Engine
-            ?
-     Evidence Generation
-            ?
-    Governance Ledger Entry
-            ?
-  Independent Replay Verification
-
-This architecture allows security decisions to be:
-
-- reproducible
-- independently verifiable
-- cryptographically bound to evidence
-- auditable after the fact
-
-Rather than trusting the scanner or CI logs alone, Nono-Gate enables verification of the final security decision artifact itself.
-
-
-
-## Security Model
-
-Nono-Gate assumes that CI environments and scanner outputs cannot always be trusted as final proof.
-
-The system therefore focuses on **verifiable decision artifacts** rather than trusting execution environments.
-
-Security properties targeted by the architecture:
-
-- deterministic decision reproduction
-- evidence binding via cryptographic hashes
-- append-only governance ledger
-- Merkle-based integrity for decision history
-- replay verification of past decisions
-- auditor-readable artifacts
-
-This model allows security reviewers to validate decisions independently from the original CI pipeline.
-
-In other words, verification does not require trusting the system that produced the decision.
-
-
-
-## Why this matters
-
-Many security tools focus on detection: scanners, analyzers, and policy engines.
-
-However, the final **release decision** in CI/CD is often based on logs, approvals, or tool output that cannot be independently verified later.
-
-Nono-Gate focuses on the **decision boundary itself**.
-
-Instead of asking "what did the scanner report?", the system enables teams to ask:
-
-"Can we verify the security decision that allowed this release?"
-
-By binding decisions to reproducible evidence and ledger integrity, the architecture enables:
-
-- post-release verification
-- auditor-friendly security decisions
-- reproducible governance artifacts
-- stronger supply-chain transparency
-- trust minimization in CI environments
-
-This approach is particularly relevant for organizations operating high-assurance DevSecOps pipelines where release decisions must remain defensible months or years later.
-
-
-## Live Demonstration
-
-Nono-Gate includes a deterministic governance demonstration showing how security decisions can be generated, recorded, and independently verified.
-
-### Running the demo
-
-Clone the repository and run the demo scripts:
-
-git clone https://github.com/88nonog-dev/nono-gate
+git clone https://github.com/88nonog-dev/nono-gate  
 cd nono-gate/demo
 
-Generate the decision artifacts:
+Generate decision artifacts:
 
 .\RUN_PROOF_DEMO.ps1
 
@@ -159,23 +70,59 @@ Run independent verification:
 
 .\VERIFY_ONLY.ps1
 
-### Expected output
+Expected output:
 
-NONO-GATE PROOF DEMO START
-PASS
-BLOCK
-EVIDENCE_ROOT_GENERATED
-NONO-GATE: VDR GENERATED
-NONO-GATE: LEDGER MERKLE ROOT COMPUTED
-TRANSPARENCY_LOG_UPDATED
-NONO-GATE PROOF DEMO COMPLETE
+NONO-GATE PROOF DEMO START  
+PASS  
+BLOCK  
+EVIDENCE_ROOT_GENERATED  
+NONO-GATE: VDR GENERATED  
+NONO-GATE: LEDGER MERKLE ROOT COMPUTED  
+TRANSPARENCY_LOG_UPDATED  
+NONO-GATE PROOF DEMO COMPLETE  
 
-NONO-GATE INDEPENDENT VERIFICATION
-DETERMINISTIC_DECISION_VERIFIED
-EVIDENCE_ROOT_PRESENT
-LEDGER_INTEGRITY_OK
-VERIFICATION_COMPLETE
+NONO-GATE INDEPENDENT VERIFICATION  
+DETERMINISTIC_DECISION_VERIFIED  
+EVIDENCE_ROOT_PRESENT  
+LEDGER_INTEGRITY_OK  
+VERIFICATION_COMPLETE  
 
-### What this proves
+---
 
-This demo illustrates that a CI security decision can produce deterministic artifacts which can be independently verified without trusting CI logs.
+# Project Goals
+
+Nono-Gate explores a governance model where:
+
+Security decisions become verifiable artifacts.
+
+CI pipelines become reproducible decision environments.
+
+Security logs are replaced with deterministic proof records.
+
+---
+
+# Repository Structure
+
+demo/
+  RUN_PROOF_DEMO.ps1
+  VERIFY_ONLY.ps1
+  ci-demo/
+    signals/
+    decision/
+    transparency/
+
+scripts/
+examples/
+tests/
+
+---
+
+# Status
+
+Prototype demonstration of a deterministic governance model for CI/CD security decisions.
+
+---
+
+# License
+
+MIT License
