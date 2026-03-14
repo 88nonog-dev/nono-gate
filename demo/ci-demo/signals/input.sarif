@@ -1,0 +1,1 @@
+﻿{ "version":"2.1.0","runs":[{"tool":{"driver":{"name":"demo-scanner"}},"results":[{"ruleId":"DEMO001","level":"warning","message":{"text":"Demo finding for Nono-Gate proof."},"locations":[{"physicalLocation":{"artifactLocation":{"uri":"demo-file.js"}}}]}]}] }
