@@ -1,0 +1,54 @@
+import fs from "fs";
+import path from "path";
+import crypto from "crypto";
+
+import { appendEntry, buildCheckpointFromLedger, appendCheckpoint } from "./ledgerStore.js";
+import { buildReceiptForIndex, verifyReceiptBasic } from "./receipt.js";
+
+function sha256HexUtf8(text){
+  return crypto.createHash("sha256").update(Buffer.from(text,"utf8")).digest("hex").toLowerCase();
+}
+
+export async function finalizeWithLedger(result, runId){
+
+  if(!result || !result.decision || !result.outDir){
+    throw new Error("FINALIZE_INVALID_RESULT");
+  }
+
+  const decision = result.decision;
+  const outDir = result.outDir;
+
+  const decision_sha256 = sha256HexUtf8(JSON.stringify(decision));
+
+  const entry = {
+    schema_id: "nono.transparency.entry.v1",
+    ledger_version: "1.0.0",
+    created_utc: new Date().toISOString(),
+    run_id: String(runId || ""),
+    engine_version: String(decision.engine_version || ""),
+    bundle_fingerprint_sha256: String(decision.bundle_fingerprint || ""),
+    root_anchor_sha256: String(decision.bundle_fingerprint || ""),
+    contract_sha256: String(decision.contract_sha256 || ""),
+    architecture_sha256: String(decision.architecture_sha256 || ""),
+    decision_sha256
+  };
+
+  appendEntry(process.cwd(), entry);
+
+  const cpObj = buildCheckpointFromLedger(process.cwd(), {
+    schema_id: "nono.transparency.checkpoint.v1",
+    ledger_version: "1.0.0",
+    created_utc: new Date().toISOString()
+  });
+
+  const cpStored = appendCheckpoint(process.cwd(), cpObj);
+
+  const receipt = buildReceiptForIndex(process.cwd(), cpStored);
+
+  verifyReceiptBasic(receipt);
+
+  const receiptPath = path.join(outDir, "TRANSPARENCY_RECEIPT.json");
+  fs.writeFileSync(receiptPath, JSON.stringify(receipt, null, 2), { encoding: "utf8" });
+
+  return receipt;
+}

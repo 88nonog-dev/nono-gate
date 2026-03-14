@@ -1,0 +1,7 @@
+schema_id=nono.anchor.last_checkpoint.v1
+ledger_version=1.0.0
+created_utc=2026-02-17T12:02:57.546Z
+tree_size=1
+root_hash_sha256=8e1c099c7716a41e11a576e83b985ade38732f094dedb4bb123e04af4ce280ee
+checkpoint_sha256=13ffeee880deef46f48093a8515cb2bde706e4cb8ed312e172ecbbd7c42131d7
+prev_checkpoint_sha256=

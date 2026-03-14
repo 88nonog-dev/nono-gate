@@ -1,0 +1,5 @@
+﻿node_modules/
+.nono/
+*.log
+*.bak_*
+SHA256SUMS.txt

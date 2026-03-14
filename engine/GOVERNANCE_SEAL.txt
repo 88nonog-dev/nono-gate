@@ -1,0 +1,12 @@
+{
+  "seal": {
+    "schema_id": "nono.governance.seal.v1",
+    "schema_version": "1.0.0",
+    "snapshot_sha256": "51a00bbb6cd787f59471ba51527b79f92d7e123a226776579996908eba426af2",
+    "git_head": "0aec68fa8f91ff30d4a2d553291013e9822056c5",
+    "ledger_checkpoint_sha256": "0565548d946ba6edfc782983665bd2bd0731bc4fbe2bbcdc8e7fa19d88bad387",
+    "audit_pack_fingerprint_sha256": "3821e0c2e1cca9bc00a6b2422986f0d6d0f3f8143723a145f363066bf65d4939",
+    "signed_zip_sha256": "b89500e23099d3c901235dcd5a7c849f38fe9872009ab8a79d2f7d967b401940"
+  },
+  "seal_sha256": "9d62158817fcb2baf8d93bccf1269d5b72e83bdff3d1d373d86f362df9c85774"
+}

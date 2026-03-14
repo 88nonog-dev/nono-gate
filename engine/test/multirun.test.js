@@ -1,0 +1,1 @@
+import { normalizeSarif } from '../src/normalize.js'; test('multi-run uses first run only (v1)', () => { const issues = normalizeSarif('fixtures/multi.sarif'); expect(issues.length).toBe(1); expect(issues[0].message).toBe('FirstRun'); });

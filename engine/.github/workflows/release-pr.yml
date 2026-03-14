@@ -1,0 +1,51 @@
+﻿name: release-pr-validation
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      security-events: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install (deterministic)
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run dependency audit (critical enforcement)
+        run: |
+          npm audit --omit=dev --json > audit.json
+          node -e "
+          const fs=require('fs');
+          const audit=JSON.parse(fs.readFileSync('audit.json','utf8'));
+          let critical=0;
+          if(audit.vulnerabilities){
+            for(const v of Object.values(audit.vulnerabilities)){
+              if(v.severity==='critical') critical++;
+            }
+          }
+          if(critical>0){
+            console.error('CRITICAL_VULNERABILITIES_BLOCKING='+critical);
+            process.exit(1);
+          } else {
+            console.log('NO_CRITICAL_VULNERABILITIES');
+          }
+          "
+
+      - name: Ensure release commit discipline
+        run: |
+          echo "Release PR validation passed. Tagging must occur only after merge."
+

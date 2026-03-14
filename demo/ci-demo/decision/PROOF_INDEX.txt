@@ -1,0 +1,34 @@
+﻿NONO-GATE — PROOF INDEX (Audit Quick Map)
+BASE=C:\Users\hp\Desktop\end-to-go\nono-gate-ci
+
+[1] QUICK REVIEW
+- decision\REVIEW_RECEIPT.txt
+
+[2] GOVERNANCE ARTIFACTS
+- decision\decision.json
+- decision\policy.json
+- decision\security-consensus.json
+
+[3] FINGERPRINTS
+- decision\DECISION_SHA256.txt
+- decision\POLICY_SHA256.txt
+- decision\EVIDENCE_ROOT_SHA256.txt
+
+[4] ATTESTATION
+- decision\decision-attestation.json
+
+[5] LEDGER + TRANSPARENCY
+- decision\governance-ledger.ndjson
+- decision\LEDGER_MERKLE_ROOT_SHA256.txt
+
+[6] REPLAY VERIFICATION
+- decision\replay-verify.ps1
+REPLAY_COMMAND=powershell -ExecutionPolicy Bypass -File C:\Users\hp\Desktop\end-to-go\nono-gate-ci\decision\replay-verify.ps1
+
+[7] EVIDENCE BUNDLE (single file for reviewers)
+- decision\EVIDENCE_BUNDLE.zip
+
+[8] CANONICAL SPEC
+- decision\CANONICAL_RULES.md
+GIT/CI_BINDING: decision\commit-attestation.json
+GIT/CI_BINDING: decision\COMMIT_ATTESTATION_SHA256.txt

@@ -1,0 +1,74 @@
+﻿name: perf-benchmark
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 4 * * 1'
+
+jobs:
+  perf:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Restore perf baseline (cache)
+        uses: actions/cache@v4
+        with:
+          path: perf/perf-baseline.json
+          key: perf-baseline-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: |
+            perf-baseline-${{ github.ref_name }}-
+
+      - name: Run benchmark
+        run: node perf/benchmark.js
+
+      - name: Compare with baseline (allow <= 25% regression)
+        run: |
+          node -e "
+          const fs=require('fs');
+          const pathCur='perf/performance-report.json';
+          const pathBase='perf/perf-baseline.json';
+          const cur=JSON.parse(fs.readFileSync(pathCur,'utf8'));
+          const curMap=new Map((cur.results||[]).map(r=>[r.step, Number(r.ms)]));
+          if(fs.existsSync(pathBase)){
+            const base=JSON.parse(fs.readFileSync(pathBase,'utf8'));
+            const baseMap=new Map((base.results||[]).map(r=>[r.step, Number(r.ms)]));
+            const steps=['npm_ci','npm_test'];
+            let blocking=0;
+            for(const s of steps){
+              const b=baseMap.get(s); const c=curMap.get(s);
+              if(Number.isFinite(b) && Number.isFinite(c)){
+                const limit=b*1.25;
+                if(c>limit){
+                  console.error('PERF_REGRESSION|STEP='+s+'|BASE_MS='+b.toFixed(2)+'|CUR_MS='+c.toFixed(2)+'|LIMIT_MS='+limit.toFixed(2));
+                  blocking++;
+                } else {
+                  console.log('PERF_OK|STEP='+s+'|BASE_MS='+b.toFixed(2)+'|CUR_MS='+c.toFixed(2));
+                }
+              }
+            }
+            if(blocking>0){ process.exit(1); }
+          } else {
+            console.log('PERF_BASELINE_MISSING|INITIALIZING');
+          }
+          fs.mkdirSync('perf',{recursive:true});
+          fs.writeFileSync(pathBase, JSON.stringify(cur,null,2));
+          console.log('PERF_BASELINE_UPDATED');
+          "
+      
+      - name: Upload performance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: perf-evidence
+          path: |
+            perf/performance-report.json
+            perf/perf-baseline.json

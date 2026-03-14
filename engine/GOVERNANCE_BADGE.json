@@ -1,0 +1,13 @@
+﻿{
+    "schema_id":  "nono.governance.badge.v1",
+    "chain_id":  "1c2c9ee307adeebb0a67721538970d9d1bbd953a882e8aebd4c8a544ea784af8",
+    "identity_sha256":  "87b2e90c695feab78fda733406cc6f456584f7e952ed75b02e13e8e70af4be29",
+    "key_fingerprint":  "RWQpLIkf70iceX1PgN5RUKdsSSDDLIs3WxLuglz3tRItEgQCJuWh8W8M",
+    "minisign_public_key":  "RWQpLIkf70iceX1PgN5RUKdsSSDDLIs3WxLuglz3tRItEgQCJuWh8W8M",
+    "claims":  [
+                   "offline-verifiable",
+                   "deterministic-governance",
+                   "append-only-ledger",
+                   "no-network-runtime"
+               ]
+}

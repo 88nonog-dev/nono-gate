@@ -1,0 +1,16 @@
+﻿schema_id=nono.governance.outputs.v1
+mode=enterprise-governance-opt-in
+must_exist=GOVERNANCE_SNAPSHOT.json
+must_exist=GOVERNANCE_SNAPSHOT.json.minisig
+must_exist=GOVERNANCE_SNAPSHOT.sha256.txt
+must_exist=GOVERNANCE_SEAL.txt
+must_exist=GOVERNANCE_SEAL.txt.minisig
+must_exist=GOVERNANCE_SEAL.sha256.txt
+must_exist=GOVERNANCE_CHAIN_ID.txt
+must_exist=GOVERNANCE_IDENTITY.json
+must_exist=GOVERNANCE_IDENTITY.json.minisig
+must_exist=GOVERNANCE_IDENTITY.sha256.txt
+must_exist=GOVERNANCE_BADGE.json
+must_exist=GOVERNANCE_BADGE.json.minisig
+must_exist=GOVERNANCE_BADGE.sha256.txt
+public_key_hint=GOVERNANCE_NEW.pub (or embedded in badge)

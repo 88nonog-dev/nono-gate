@@ -1,0 +1,5 @@
+{
+    "deterministic":  true,
+    "source":  "sarif",
+    "decision":  "BLOCK"
+}

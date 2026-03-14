@@ -1,0 +1,3 @@
+﻿$d=Get-Content "$PSScriptRoot/../decision\decision.json" | Out-String|ConvertFrom-Json;$ds=Get-Content "$PSScriptRoot/../decision\DECISION_SHA256.txt";$er=Get-Content "$PSScriptRoot/../decision\EVIDENCE_ROOT_SHA256.txt";$ledger="$PSScriptRoot/../decision\governance-ledger.ndjson";$prev="GENESIS";if(Test-Path $ledger){$last=Get-Content $ledger|Select-Object -Last 1;$prev=(Get-FileHash -Algorithm SHA256 -InputStream ([IO.MemoryStream]::new([Text.Encoding]::UTF8.GetBytes($last)))).Hash};$entry=@{timestamp=(Get-Date).ToUniversalTime().ToString("o");decision=$d.decision;decision_sha256=$ds;evidence_root=$er;prev_ledger_sha256=$prev};$line=$entry|ConvertTo-Json -Compress;Add-Content -LiteralPath $ledger -Value $line
+
+

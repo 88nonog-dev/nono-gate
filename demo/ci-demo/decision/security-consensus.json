@@ -1,0 +1,18 @@
+﻿{
+    "rule":  "block_if_any_tool_has_error_or_critical",
+    "blocking_tools":  [
+                           "Semgrep"
+                       ],
+    "deterministic":  true,
+    "signals":  {
+                    "has_blocking":  true,
+                    "critical":  0,
+                    "errors":  1,
+                    "warnings":  0,
+                    "tool":  "Semgrep",
+                    "file":  "sample-semgrep.sarif"
+                },
+    "reason":  "blocking findings from: Semgrep",
+    "consensus":  "BLOCK",
+    "engine":  "nono-gate.consensus.v1"
+}

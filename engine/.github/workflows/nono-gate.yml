@@ -1,0 +1,33 @@
+name: nono-gate
+on: [push, pull_request]
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install
+        run: npm ci || npm i
+      - name: Restore baseline from cache
+        uses: actions/cache@v4
+        with:
+          path: .nono/baseline.json
+          key: nono-baseline-`${{ github.ref_name }}
+      - name: Run gate
+        run: node bin/nono.js run --sarif results.sarif --policy .nono/policy.yaml --baseline .nono/baseline.json
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nono-evidence
+          path: .nono/evidence
+      - name: Cache baseline (push only)
+        if: `${{ github.event_name == 'push' }}
+        uses: actions/cache@v4
+        with:
+          path: .nono/baseline.json
+          key: nono-baseline-`${{ github.ref_name }}

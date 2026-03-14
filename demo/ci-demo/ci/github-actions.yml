@@ -1,0 +1,1 @@
+﻿name: nono-gate-ci`non: [push]`njobs:`n  security-and-gate:`n    runs-on: ubuntu-latest`n    steps:`n      - name: Checkout`n        uses: actions/checkout@v4`n      - name: Run Security Scan`n        run: echo "Simulated scan step"`n      - name: Nono-Gate Release Integrity Check`n        shell: pwsh`n        run: C:\Users\hp\Desktop\end-to-go\nono-gate-ci\ci\gate.ps1

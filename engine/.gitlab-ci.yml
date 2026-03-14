@@ -1,0 +1,19 @@
+stages:
+  - gate
+
+gate:
+  stage: gate
+  image: node:20
+  cache:
+    key: nono-baseline-\
+    paths:
+      - .nono/baseline.json
+      - .nono/baseline.sha256
+  script:
+    - npm ci || npm i
+    - node bin/nono.js run --sarif results.sarif --policy .nono/policy.yaml --baseline .nono/baseline.json
+  artifacts:
+    when: always
+    paths:
+      - .nono/evidence/
+

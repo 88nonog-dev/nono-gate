@@ -1,0 +1,104 @@
+﻿import fs from "fs";
+import path from "path";
+import crypto from "crypto";
+
+function sha256HexUtf8(text){
+  return crypto.createHash("sha256").update(Buffer.from(text,"utf8")).digest("hex").toLowerCase();
+}
+
+function readText(p){
+  return fs.readFileSync(p,"utf8");
+}
+
+function writeText(p, txt){
+  fs.mkdirSync(path.dirname(p), { recursive:true });
+  fs.writeFileSync(p, txt, { encoding:"utf8" });
+}
+
+function canonicalize(v){
+  if(v === null) return null;
+  const t = typeof v;
+  if(t === "number" || t === "boolean" || t === "string") return v;
+  if(Array.isArray(v)) return v.map(canonicalize);
+  if(t === "object"){
+    const out = {};
+    for(const k of Object.keys(v).sort()){
+      out[k] = canonicalize(v[k]);
+    }
+    return out;
+  }
+  return v;
+}
+
+function canonicalStringify(v){
+  return JSON.stringify(canonicalize(v));
+}
+
+export function lineageDir(cwd){
+  return path.join(cwd, ".nono", "lineage");
+}
+
+export function lineageHeadPath(cwd){
+  return path.join(lineageDir(cwd), "HEAD.json");
+}
+
+export function lineageLogPath(cwd){
+  return path.join(lineageDir(cwd), "LINEAGE.ndjson");
+}
+
+export function loadLineageHead(cwd){
+  const p = lineageHeadPath(cwd);
+  if(!fs.existsSync(p)) return null;
+  return JSON.parse(readText(p));
+}
+
+export function appendLineageEntry(cwd, entry){
+  const dir = lineageDir(cwd);
+  fs.mkdirSync(dir, { recursive:true });
+
+  // Load previous head (if any)
+  const prev = loadLineageHead(cwd);
+
+  const prev_root = prev && prev.lineage_root_sha256 ? String(prev.lineage_root_sha256) : "";
+  const prev_entry_sha256 = prev && prev.latest_entry_sha256 ? String(prev.latest_entry_sha256) : "";
+
+  // Deterministic, no timestamps
+  const clean = canonicalize({
+    schema_id: "nono.lineage.entry.v1",
+    lineage_version: "1.0.0",
+    prev_root_sha256: prev_root,
+    prev_entry_sha256: prev_entry_sha256,
+    run_id: String(entry.run_id || ""),
+    bundle_root_sha256: String(entry.bundle_root_sha256 || ""),
+    bundle_fingerprint_sha256: String(entry.bundle_fingerprint_sha256 || ""),
+    contract_sha256: String(entry.contract_sha256 || ""),
+    architecture_sha256: String(entry.architecture_sha256 || ""),
+    engine_fingerprint_sha256: String(entry.engine_fingerprint_sha256 || "")
+  });
+
+  const entryText = canonicalStringify(clean) + "\n";
+  const entrySha = sha256HexUtf8(entryText);
+
+  // Chain root: sha256(prev_root + "|" + entrySha)
+  const newRoot = sha256HexUtf8((prev_root || "") + "|" + entrySha);
+
+  // Append NDJSON: we store canonical json + derived hashes (still deterministic)
+  const lineObj = canonicalize({
+    entry: clean,
+    entry_sha256: entrySha,
+    lineage_root_sha256: newRoot
+  });
+  const line = canonicalStringify(lineObj) + "\n";
+
+  fs.appendFileSync(lineageLogPath(cwd), line, { encoding:"utf8" });
+
+  const headObj = canonicalize({
+    schema_id: "nono.lineage.head.v1",
+    lineage_version: "1.0.0",
+    lineage_root_sha256: newRoot,
+    latest_entry_sha256: entrySha
+  });
+  writeText(lineageHeadPath(cwd), canonicalStringify(headObj) + "\n");
+
+  return { entry_sha256: entrySha, lineage_root_sha256: newRoot };
+}

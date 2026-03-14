@@ -1,0 +1,42 @@
+﻿{
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "demo-scanner",
+          "rules": [
+            {
+              "id": "JS-EVAL-001",
+              "name": "Avoid eval()",
+              "shortDescription": {
+                "text": "Use of eval() can lead to code injection vulnerabilities."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "JS-EVAL-001",
+          "level": "error",
+          "message": {
+            "text": "Use of eval() detected."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "app.js"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

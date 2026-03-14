@@ -1,0 +1,1 @@
+import { normalizeSarif } from '../src/normalize.js'; test('normalize valid sarif', () => { const issues = normalizeSarif('fixtures/valid.sarif'); expect(issues.length).toBe(1); expect(issues[0].ruleId).toBe('R1'); }); test('invalid sarif version throws', () => { expect(() => normalizeSarif('fixtures/invalid.sarif')).toThrow(); });

@@ -1,0 +1,3 @@
+﻿$base="$PSScriptRoot/../decision";$d=(Get-Content "$base\decision.json" | Out-String|ConvertFrom-Json).decision;$root=(Get-Content "$base\EVIDENCE_ROOT_SHA256.txt").Trim();$decsha=(Get-Content "$base\DECISION_SHA256.txt").Trim();$polsha=(Get-Content "$base\POLICY_SHA256.txt").Trim();$receipt=@();$receipt+="NONO-GATE REVIEW RECEIPT";$receipt+="decision="+$d;$receipt+="evidence_root_sha256="+$root;$receipt+="decision_sha256="+$decsha;$receipt+="policy_sha256="+$polsha;$receipt+="replay_command=powershell -ExecutionPolicy Bypass -File decision\replay-verify.ps1";$receipt|Set-Content "$base\REVIEW_RECEIPT.txt" -Encoding UTF8;Write-Host "NONO-GATE: REVIEW RECEIPT GENERATED"
+
+

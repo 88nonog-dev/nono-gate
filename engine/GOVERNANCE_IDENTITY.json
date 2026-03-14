@@ -1,0 +1,9 @@
+﻿{
+    "seal_sha256":  "724c35646b9d8a24a1d904850ae5e0c97be0ea3eb233455976010eae60be9dad",
+    "snapshot_sha256":  "3de11fdc773702ee3f08c4cb71fbc20c767c439f05e601411d8d8a1ca7ba0fd1",
+    "key_fingerprint":  "RWQpLIkf70iceX1PgN5RUKdsSSDDLIs3WxLuglz3tRItEgQCJuWh8W8M",
+    "signature_required":  true,
+    "schema_id":  "nono.governance.identity.v1",
+    "chain_id":  "1c2c9ee307adeebb0a67721538970d9d1bbd953a882e8aebd4c8a544ea784af8",
+    "engine":  "nono-gate-1.1.0"
+}

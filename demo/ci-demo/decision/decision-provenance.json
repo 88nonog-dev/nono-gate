@@ -1,0 +1,39 @@
+﻿{
+    "decision_sha256":  "26DE578AE38AB27DC43064F9C003358FEB46947B78A3606E0CEB29BE8DB3952E",
+    "consensus":  {
+                      "rule":  "block_if_any_tool_has_error_or_critical",
+                      "reason":  "blocking findings from: Semgrep"
+                  },
+    "primary_signal":  {
+                           "sample_result":  {
+                                                 "startLine":  10,
+                                                 "ruleId":  "XSS.TEST",
+                                                 "level":  "error",
+                                                 "uri":  "app.js"
+                                             },
+                           "tool":  "Semgrep",
+                           "sarif_file":  "sample-semgrep.sarif"
+                       },
+    "ledger_merkle_root_sha256":  "cc07235a4c9bbf1bf09010db6939a8714cecda418ca070f4bf9f7de428b9fb96",
+    "engine":  "nono-gate.decision-provenance.v1",
+    "ledger_seq":  7,
+    "decision":  "BLOCK",
+    "artifacts":  {
+                      "attestation":  "decision\\decision-attestation.json",
+                      "review_receipt":  "decision\\REVIEW_RECEIPT.txt",
+                      "decision_sha":  "decision\\DECISION_SHA256.txt",
+                      "consensus_json":  "decision\\security-consensus.json",
+                      "policy_sha":  "decision\\POLICY_SHA256.txt",
+                      "canonical_rules":  "decision\\CANONICAL_RULES.md",
+                      "ledger":  "decision\\governance-ledger.ndjson",
+                      "policy_json":  "decision\\policy.json",
+                      "proof_index":  "decision\\PROOF_INDEX.txt",
+                      "evidence_bundle_zip":  "decision\\EVIDENCE_BUNDLE.zip",
+                      "ledger_merkle_root":  "decision\\LEDGER_MERKLE_ROOT_SHA256.txt",
+                      "decision_json":  "decision\\decision.json",
+                      "evidence_root":  "decision\\EVIDENCE_ROOT_SHA256.txt"
+                  },
+    "evidence_root_sha256":  "add541fef80764c8a4de63090f193f180b6fd6413e574414c6bf3062571e3f0b",
+    "policy_sha256":  "96776851902368ECD27A48401071400F0934581F4957CFD6B0D2D57491C61062",
+    "deterministic":  true
+}

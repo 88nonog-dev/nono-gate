@@ -1,0 +1,27 @@
+{
+  "schema_id": "nono.governance.snapshot.v1",
+  "schema_version": "1.0.0",
+  "governance_version": "1.0.0",
+  "repo_root": "C:\\Users\\hp\\Desktop\\150\\nono-gate-v1__20260215_202937__FROZEN_GATE_v1_1__20260216_172512",
+  "git_head": "0aec68fa8f91ff30d4a2d553291013e9822056c5",
+  "git_tag": "v1.1.3-enterprise",
+  "ledger": {
+    "checkpoint_sha256": "0565548d946ba6edfc782983665bd2bd0731bc4fbe2bbcdc8e7fa19d88bad387",
+    "root_hash_sha256": "e964edc3b32a4f33f0d30b271124abb5e812595c47a3d6117ed856767701e0f1",
+    "tree_size": 71,
+    "created_utc": ""
+  },
+  "audit_pack": {
+    "dir": "C:\\Users\\hp\\Desktop\\150\\AUDIT_PACK_20260220_191307",
+    "fingerprint_sha256": "3821e0c2e1cca9bc00a6b2422986f0d6d0f3f8143723a145f363066bf65d4939"
+  },
+  "signed_zip": {
+    "path": "C:\\Users\\hp\\Desktop\\150\\AUDIT_PACK_20260220_191307.zip",
+    "sha256": "b89500e23099d3c901235dcd5a7c849f38fe9872009ab8a79d2f7d967b401940",
+    "minisign": "C:\\Users\\hp\\Desktop\\150\\AUDIT_PACK_20260220_191307.zip.minisig"
+  },
+  "attestation": {
+    "path": "C:\\Users\\hp\\Desktop\\150\\nono-gate-v1__20260215_202937__FROZEN_GATE_v1_1__20260216_172512\\RELEASE_ATTESTATION.txt",
+    "sha256": "599a2b4a0525820fa94874b413a9b7800be67fda0976d4c3e1ddfbd00070a1c2"
+  }
+}

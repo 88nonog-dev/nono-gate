@@ -1,0 +1,77 @@
+﻿#!/usr/bin/env node
+import fs from "fs";
+import path from "path";
+import crypto from "crypto";
+
+function sha256Utf8(s){
+  return crypto.createHash("sha256").update(Buffer.from(String(s),"utf8")).digest("hex");
+}
+
+function canonicalize(v){
+  if(v === null) return null;
+  const t = typeof v;
+  if(t === "string" || t === "number" || t === "boolean") return v;
+  if(Array.isArray(v)) return v.map(canonicalize);
+  if(t === "object"){
+    const o = {};
+    for(const k of Object.keys(v).sort()) o[k] = canonicalize(v[k]);
+    return o;
+  }
+  return v;
+}
+function canonicalStringify(v){
+  return JSON.stringify(canonicalize(v));
+}
+
+function main(){
+  const cwd = process.cwd();
+  const lineageDir = path.join(cwd, ".nono", "lineage");
+  const logPath = path.join(lineageDir, "LINEAGE.ndjson");
+  const headPath = path.join(lineageDir, "HEAD.json");
+
+  if(!fs.existsSync(logPath)) throw new Error("LINEAGE_LOG_MISSING");
+  if(!fs.existsSync(headPath)) throw new Error("LINEAGE_HEAD_MISSING");
+
+  const head = JSON.parse(fs.readFileSync(headPath, "utf8"));
+  const lines = fs.readFileSync(logPath, "utf8").split(/\r?\n/).filter(Boolean);
+
+  let prevRoot = "";
+  let lastEntrySha = "";
+
+  for(let i=0;i<lines.length;i++){
+    const raw = lines[i];
+    let obj;
+    try{ obj = JSON.parse(raw); }catch{ throw new Error("LINEAGE_NDJSON_INVALID_AT:"+i); }
+
+    const entry = obj.entry;
+    const entryText = canonicalStringify(entry) + "\n";
+    const entrySha = sha256Utf8(entryText);
+
+    const expectedPrev = i === 0 ? "" : prevRoot;
+    if(String(entry.prev_root_sha256||"") !== expectedPrev){
+      throw new Error("LINEAGE_PREV_MISMATCH_AT:"+i+":expected="+expectedPrev+":got="+entry.prev_root_sha256);
+    }
+
+    const newRoot = sha256Utf8(expectedPrev + "|" + entrySha);
+
+    prevRoot = newRoot;
+    lastEntrySha = entrySha;
+  }
+
+  const expectedHead = String(head.lineage_root_sha256 || "");
+  if(expectedHead && expectedHead !== prevRoot){
+    throw new Error("HEAD_ROOT_MISMATCH:expected="+expectedHead+":computed="+prevRoot);
+  }
+
+  const receipt = {
+    schema_id: "nono.lineage.replay.receipt.v1",
+    ok: true,
+    entries: lines.length,
+    computed_head_root_sha256: prevRoot,
+    computed_last_entry_sha256: lastEntrySha
+  };
+
+  console.log(JSON.stringify(receipt, null, 2));
+}
+
+main();

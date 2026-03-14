@@ -1,0 +1,61 @@
+{
+    "version":  "2.1.0",
+    "runs":  [
+                 {
+                     "tool":  {
+                                  "driver":  {
+                                                 "name":  "ToolA"
+                                             }
+                              },
+                     "results":  [
+                                     {
+                                         "message":  {
+                                                         "text":  "FirstRun"
+                                                     },
+                                         "ruleId":  "R1",
+                                         "level":  "warning",
+                                         "locations":  [
+                                                           {
+                                                               "physicalLocation":  {
+                                                                                        "artifactLocation":  {
+                                                                                                                 "uri":  "a.js"
+                                                                                                             },
+                                                                                        "region":  {
+                                                                                                       "startLine":  1
+                                                                                                   }
+                                                                                    }
+                                                           }
+                                                       ]
+                                     }
+                                 ]
+                 },
+                 {
+                     "tool":  {
+                                  "driver":  {
+                                                 "name":  "ToolB"
+                                             }
+                              },
+                     "results":  [
+                                     {
+                                         "message":  {
+                                                         "text":  "SecondRun"
+                                                     },
+                                         "ruleId":  "R2",
+                                         "level":  "error",
+                                         "locations":  [
+                                                           {
+                                                               "physicalLocation":  {
+                                                                                        "artifactLocation":  {
+                                                                                                                 "uri":  "b.js"
+                                                                                                             },
+                                                                                        "region":  {
+                                                                                                       "startLine":  2
+                                                                                                   }
+                                                                                    }
+                                                           }
+                                                       ]
+                                     }
+                                 ]
+                 }
+             ]
+}

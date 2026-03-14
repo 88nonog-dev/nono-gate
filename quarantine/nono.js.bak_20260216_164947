@@ -1,0 +1,69 @@
+#!/usr/bin/env node
+import fs from "fs";
+import path from "path";
+import { execSync } from "child_process";
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
+import { run } from "../src/run.js";
+import { verifyBundle } from "../src/evidence_verify.js";
+import { baselineInit, baselineUpdate } from "../src/baseline.js";
+
+function signBundle(bundleDir,keyPath){
+  const sumsPath = path.join(bundleDir,"SHA256SUMS.txt");
+  if(!fs.existsSync(sumsPath)) throw new Error("SHA256SUMS_MISSING");
+  const sigPath = path.join(bundleDir,"SIGNATURE.minisig");
+  execSync(`minisign -Sm "${sumsPath}" -s "${keyPath}" -x "${sigPath}"`,{stdio:"inherit"});
+  console.log("SIGNATURE_CREATED="+sigPath);
+}
+
+function verifySignatureIfPresent(bundleDir,pubPath){
+  const sigPath = path.join(bundleDir,"SIGNATURE.minisig");
+  if(!fs.existsSync(sigPath)) return;
+
+  if(!pubPath) throw new Error("PUB_REQUIRED_FOR_SIGNED_BUNDLE");
+  const sumsPath = path.join(bundleDir,"SHA256SUMS.txt");
+  execSync(`minisign -Vm "${sumsPath}" -p "${pubPath}" -x "${sigPath}"`,{stdio:"inherit"});
+  console.log("SIGNATURE_VERIFY_PASS");
+}
+
+yargs(hideBin(process.argv))
+
+.command("run","Run gate", y=>y
+  .option("sarif",{type:"string",demandOption:true})
+  .option("policy",{type:"string",demandOption:true})
+  .option("baseline",{type:"string"}), async args=>{
+    await run(args);
+})
+
+.command("baseline","Baseline commands", y=>y
+  .command("init","Init baseline", y=>y
+    .option("sarif",{type:"string",demandOption:true}), args=>{
+      baselineInit(args.sarif);
+  })
+  .command("update","Update baseline", y=>y
+    .option("sarif",{type:"string",demandOption:true})
+    .option("baseline",{type:"string",demandOption:true}), args=>{
+      baselineUpdate(args.sarif,args.baseline);
+  })
+  .demandCommand(1)
+)
+
+.command("evidence","Evidence commands", y=>y
+  .command("verify","Verify evidence bundle", y=>y
+    .option("bundle",{type:"string",demandOption:true})
+    .option("pub",{type:"string"}), args=>{
+      verifyBundle(args.bundle);
+      verifySignatureIfPresent(args.bundle,args.pub);
+      console.log("EVIDENCE_VERIFY_PASS");
+  })
+  .command("sign","Sign evidence bundle", y=>y
+    .option("bundle",{type:"string",demandOption:true})
+    .option("key",{type:"string",demandOption:true}), args=>{
+      signBundle(args.bundle,args.key);
+  })
+  .demandCommand(1)
+)
+
+.demandCommand(1)
+.help()
+.argv;

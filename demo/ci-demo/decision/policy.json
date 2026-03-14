@@ -1,0 +1,1 @@
+﻿{ "governance_policy": "release_gate", "block_on": ["error","critical"], "source": "sarif_security_signals", "deterministic": true }

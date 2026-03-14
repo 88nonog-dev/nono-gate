@@ -1,0 +1,33 @@
+{
+    "version":  "2.1.0",
+    "runs":  [
+                 {
+                     "tool":  {
+                                  "driver":  {
+                                                 "name":  "TestTool"
+                                             }
+                              },
+                     "results":  [
+                                     {
+                                         "message":  {
+                                                         "text":  "Example issue"
+                                                     },
+                                         "ruleId":  "RULE1",
+                                         "level":  "error",
+                                         "locations":  [
+                                                           {
+                                                               "physicalLocation":  {
+                                                                                        "artifactLocation":  {
+                                                                                                                 "uri":  "file.js"
+                                                                                                             },
+                                                                                        "region":  {
+                                                                                                       "startLine":  10
+                                                                                                   }
+                                                                                    }
+                                                           }
+                                                       ]
+                                     }
+                                 ]
+                 }
+             ]
+}

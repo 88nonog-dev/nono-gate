@@ -1,0 +1,23 @@
+[35mARCHITECTURE_STRICT_MODEL.md[m[36m:[m[32m43[m[36m:[m5) `[1;31mBUNDLE_ROOT_SHA256.txt[m` seals the bundle root
+[35mARCHITECTURE_STRICT_MODEL.md[m[36m:[m[32m53[m[36m:[m- missing or invalid `[1;31mBUNDLE_ROOT_SHA256.txt[m`
+[35mARCHITECTURE_STRICT_MODEL.md[m[36m:[m[32m68[m[36m:[m- `[1;31mBUNDLE_ROOT_SHA256.txt[m`
+[35mKNOWLEDGE_TRANSFER_BUNDLE_v1.1.3_ENTERPRISE_20260219_205123/01_START_HERE.md[m[36m:[m[32m27[m[36m:[mdecision.json, normalized.json, diff.json, baseline_used.json, report.md, SHA256SUMS.txt, [1;31mBUNDLE_ROOT_SHA256.txt[m, receipt.json
+[35mKNOWLEDGE_TRANSFER_BUNDLE_v1.1.3_ENTERPRISE_20260219_205123/02_QUICK_RUN_GUIDE.md[m[36m:[m[32m41[m[36m:[m- [1;31mBUNDLE_ROOT_SHA256.txt[m
+[35mKNOWLEDGE_TRANSFER_BUNDLE_v1.1.3_ENTERPRISE_20260219_205123/03_ARCHITECTURE_OVERVIEW.md[m[36m:[m[32m34[m[36m:[m   [1;31mBUNDLE_ROOT_SHA256.txt[m derived from fingerprint + contract + architecture hash.
+[35mKNOWLEDGE_TRANSFER_BUNDLE_v1.1.3_ENTERPRISE_20260219_205123/09_AUDITOR_WALKTHROUGH.md[m[36m:[m[32m40[m[36m:[m[1;31mBUNDLE_ROOT_SHA256.txt[m
+[35mdocs/ENTERPRISE_TRUST_LAYER.md[m[36m:[m[32m14[m[36m:[m  - `[1;31mBUNDLE_ROOT_SHA256.txt[m`
+[35mdocs/INTEGRATION_MODEL.md[m[36m:[m[32m26[m[36m:[m- Core MUST NOT write [1;31mBUNDLE_ROOT_SHA256.txt[m or FINAL_STRICT_PASS.
+[35mdocs/LEDGER_CONTRACT.md[m[36m:[m[32m78[m[36m:[m- `root_anchor_sha256` (string, hex) — hash of [1;31mBUNDLE_ROOT_SHA256.txt[m contents or derived anchor (as defined by evidence)
+[35mdocs/RELEASE_MARKER_GATE_V1_1.md[m[36m:[m[32m17[m[36m:[m- Root Anchor: [1;31mBUNDLE_ROOT_SHA256.txt[m (non-circular)
+[35mdocs/STAGING_SPEC.md[m[36m:[m[32m35[m[36m:[m- [1;31mBUNDLE_ROOT_SHA256.txt[m
+[35msrc/evidence.js[m[36m:[m[32m33[m[36m:[m  const rootName = '[1;31mBUNDLE_ROOT_SHA256.txt[m';
+[35msrc/run.js[m[36m:[m[32m259[m[36m:[m    '[1;31mBUNDLE_ROOT_SHA256.txt[m': rootAnchor
+[35mverifier/_test_evidence_fail/CONTRACT.json[m[36m:[m[32m15[m[36m:[m    "[1;31mBUNDLE_ROOT_SHA256.txt[m",
+[35mverifier/_test_evidence_fail/CONTRACT.json[m[36m:[m[32m16[m[36m:[m    "[1;31mBUNDLE_ROOT_SHA256.txt[m.minisig",
+[35mverifier/_test_evidence_fail/CONTRACT.json[m[36m:[m[32m31[m[36m:[m    "signature_target": "[1;31mBUNDLE_ROOT_SHA256.txt[m",
+[35mverifier/_test_evidence_sig/BUNDLE_ROOT_SHA256.txt.minisig[m[36m:[m[32m3[m[36m:[mtrusted comment: timestamp:1771700216	file:[1;31mBUNDLE_ROOT_SHA256.txt[m	hashed
+[35mverifier/_test_evidence_sig/CONTRACT.json[m[36m:[m[32m15[m[36m:[m    "[1;31mBUNDLE_ROOT_SHA256.txt[m",
+[35mverifier/_test_evidence_sig/CONTRACT.json[m[36m:[m[32m16[m[36m:[m    "[1;31mBUNDLE_ROOT_SHA256.txt[m.minisig",
+[35mverifier/_test_evidence_sig/CONTRACT.json[m[36m:[m[32m31[m[36m:[m    "signature_target": "[1;31mBUNDLE_ROOT_SHA256.txt[m",
+[35mverifier/nono-verify.cjs[m[36m:[m[32m128[m[36m:[m  const rootFile = path.join(evidenceDir, "[1;31mBUNDLE_ROOT_SHA256.txt[m");
+[35mverifier/nono-verify.cjs[m[36m:[m[32m129[m[36m:[m  const sigFile = path.join(evidenceDir, "[1;31mBUNDLE_ROOT_SHA256.txt[m.minisig");

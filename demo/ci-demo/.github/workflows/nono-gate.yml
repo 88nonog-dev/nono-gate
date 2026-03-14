@@ -1,0 +1,64 @@
+﻿name: NONO-GATE Governance
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  nono-gate-governance:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Prepare SARIF Input
+        run: |
+          mkdir -p signals
+          cp examples/sarif/real-demo.sarif signals/input.sarif
+
+      - name: Run NONO-GATE Governance Pipeline
+        shell: pwsh
+        run: |
+          ./signals/parse-sarif.ps1
+          ./signals/consensus-engine.ps1
+          ./decision/generate-decision.ps1
+          ./decision/fingerprint-decision.ps1
+          ./decision/build-evidence-root.ps1
+          ./decision/build-attestation.ps1
+          ./decision/generate-vdr.ps1
+          ./decision/append-ledger.ps1
+          ./decision/compute-ledger-merkle-root.ps1
+          ./decision/append-transparency-log.ps1
+
+      - name: Auditor Verification
+        shell: pwsh
+        run: |
+          ./demo/auditor-one-command.ps1
+
+      - name: CI Governance Gate
+        shell: pwsh
+        run: |
+          $r = Get-Content demo/AUDITOR_RECEIPT.txt
+          if ($r -match "audit_status=PASS") {
+            Write-Host "NONO-GATE: CI PASS"
+          } else {
+            Write-Host "NONO-GATE: CI BLOCK"
+            exit 1
+          }
+
+      - name: Upload Governance Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nono-gate-artifacts
+          path: |
+            decision/decision.json
+            decision/EVIDENCE_ROOT_SHA256.txt
+            decision/decision-attestation.json
+            decision/decision-provenance.json
+            decision/VDR_RECEIPT.txt
+            demo/AUDITOR_RECEIPT.txt
+            decision/governance-ledger.ndjson
+            decision/LEDGER_MERKLE_ROOT_SHA256.txt

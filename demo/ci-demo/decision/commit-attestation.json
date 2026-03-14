@@ -1,0 +1,9 @@
+﻿{
+    "repository":  "local-demo",
+    "policy_sha256":  "96776851902368ECD27A48401071400F0934581F4957CFD6B0D2D57491C61062",
+    "decision_sha256":  "26DE578AE38AB27DC43064F9C003358FEB46947B78A3606E0CEB29BE8DB3952E",
+    "branch":  "main",
+    "pipeline":  "NONO_LOCAL_PIPELINE",
+    "commit_sha":  "20260305165130",
+    "evidence_root_sha256":  "add541fef80764c8a4de63090f193f180b6fd6413e574414c6bf3062571e3f0b"
+}

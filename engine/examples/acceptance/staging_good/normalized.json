@@ -1,0 +1,11 @@
+[
+  {
+    "tool": "nono-core-minimal",
+    "ruleId": "demo-rule",
+    "uri": "src/demo.js",
+    "line": 1,
+    "message": "Acceptance pack demo finding",
+    "severity": "warning",
+    "identity": "28e398b026c2fb2e472296db25e4f4ef4ec6a63a1a3e28194fcf1742d9d5dcf4"
+  }
+]

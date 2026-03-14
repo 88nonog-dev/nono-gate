@@ -1,0 +1,19 @@
+﻿node_modules/
+.nono*/
+.nono*/
+*.log
+*.bak_*
+*.ndjson
+SHA256SUMS.txt# === ARTIFACTS (never commit) ===
+REPRO_PACK_*/
+REPRO_PACK_*.zip
+REPRO_PACK_*.sha256.txt
+OUTBOUND_*/
+OUTBOUND_*.zip
+FINAL_DELIVERY/
+.nono/
+ENGINE_FINGERPRINT_MANIFEST.txt
+ENGINE_FINGERPRINT_SHA256.txt
+audit_local.json
+*.minisig
+*.SHA256.txt

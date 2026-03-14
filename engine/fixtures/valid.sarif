@@ -1,0 +1,33 @@
+{
+    "version":  "2.1.0",
+    "runs":  [
+                 {
+                     "tool":  {
+                                  "driver":  {
+                                                 "name":  "ToolA"
+                                             }
+                              },
+                     "results":  [
+                                     {
+                                         "message":  {
+                                                         "text":  "Issue1"
+                                                     },
+                                         "ruleId":  "R1",
+                                         "level":  "error",
+                                         "locations":  [
+                                                           {
+                                                               "physicalLocation":  {
+                                                                                        "artifactLocation":  {
+                                                                                                                 "uri":  "a.js"
+                                                                                                             },
+                                                                                        "region":  {
+                                                                                                       "startLine":  1
+                                                                                                   }
+                                                                                    }
+                                                           }
+                                                       ]
+                                     }
+                                 ]
+                 }
+             ]
+}

@@ -1,0 +1,1 @@
+﻿{ "engine": "nono-gate.consensus-policy.v1", "mode": "any-error-block", "description": "BLOCK if any tool reports error or critical", "block_levels": ["error","critical"], "min_tools_required": 1, "allowed_tools": ["Semgrep","CodeQL","Bandit"], "deterministic": true }

@@ -1,0 +1,87 @@
+#!/usr/bin/env node
+import fs from "fs";
+import path from "path";
+import process from "process";
+import { normalizeSarif } from "../src/normalize.js";
+import { diffIssues } from "../src/diff.js";
+import { run } from "../src/run.js";
+
+function parseArgs(argv) {
+  const args = {};
+  for (let i = 0; i < argv.length; i++) {
+    if (argv[i] === "--staging") args.staging = argv[++i];
+    else if (argv[i] === "--policy") args.policy = argv[++i];
+    else if (argv[i] === "--sarif") args.sarif = argv[++i];
+    else if (argv[i] === "--baseline") args.baseline = argv[++i];
+  }
+  return args;
+}
+
+function writeJson(p, obj) {
+  const text = JSON.stringify(obj, null, 2);
+  fs.writeFileSync(p, text, { encoding: "utf8" });
+}
+
+async function main() {
+  const argv = process.argv.slice(2);
+
+  if (argv[0] === "enterprise") {
+    const parsed = parseArgs(argv.slice(1));
+
+    if (!parsed.policy) {
+      console.error("Missing --policy");
+      process.exit(1);
+    }
+
+    const policyAbs = path.resolve(parsed.policy);
+    const sarifAbs = parsed.sarif ? path.resolve(parsed.sarif) : null;
+    const baselineAbs = parsed.baseline ? path.resolve(parsed.baseline) : null;
+
+    if (parsed.staging) {
+      const result = await run({ staging: parsed.staging, policy: policyAbs }); process.exit(result.decision.status==='FAIL'?1:0);
+    }
+
+    if (!sarifAbs) {
+      console.error("Missing --sarif");
+      process.exit(1);
+    }
+
+    const runId = new Date().toISOString().replace(/[:.]/g, "-");
+    const stagingRoot = path.join(".nono", "staging", runId);
+    fs.mkdirSync(stagingRoot, { recursive: true });
+
+    const sarifDest = path.join(stagingRoot, "sarif.json");
+    fs.copyFileSync(sarifAbs, sarifDest);
+
+    const normalized = normalizeSarif(sarifDest);
+
+    let baseline = [];
+    if (baselineAbs) {
+      const raw = fs.readFileSync(baselineAbs, "utf8");
+      baseline = raw ? JSON.parse(raw) : [];
+    }
+
+    const diff = diffIssues(normalized, baseline);
+
+    writeJson(path.join(stagingRoot, "normalized.json"), normalized);
+    writeJson(path.join(stagingRoot, "baseline_used.json"), baseline);
+    writeJson(path.join(stagingRoot, "diff.json"), diff);
+    writeJson(path.join(stagingRoot, "core_run_meta.json"), {
+      tool: "nono-enterprise-wrapper",
+      generated_at: new Date().toISOString()
+    });
+
+    const stagingAbs = path.resolve(stagingRoot);
+    const stagingParent = path.dirname(stagingAbs);
+
+    const result = await run({ staging: stagingAbs, policy: policyAbs }); process.exit(result.decision.status==='FAIL'?1:0);
+  }
+
+  console.error("Unknown command.");
+  process.exit(1);
+}
+
+main().catch(e => {
+  console.error(e.message);
+  process.exit(1);
+});

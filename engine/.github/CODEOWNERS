@@ -1,0 +1,11 @@
+﻿# Central Lock
+/.github/workflows/    @88nonog-dev
+/.github/CODEOWNERS    @88nonog-dev
+/package.json          @88nonog-dev
+/package-lock.json     @88nonog-dev
+/src/                  @88nonog-dev
+/bin/                  @88nonog-dev
+
+# Distributed
+/docs/                 @88nonog-dev
+/examples/             @88nonog-dev

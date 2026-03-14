@@ -1,0 +1,19 @@
+﻿NONO-GATE — VERIFIABLE DECISION RECEIPT (VDR)
+decision=BLOCK
+tool=Semgrep
+ruleId=XSS.TEST
+level=error
+file=app.js
+line=10
+consensus_rule=block_if_any_tool_has_error_or_critical
+consensus_reason=blocking findings from: Semgrep
+decision_sha256=26DE578AE38AB27DC43064F9C003358FEB46947B78A3606E0CEB29BE8DB3952E
+policy_sha256=96776851902368ECD27A48401071400F0934581F4957CFD6B0D2D57491C61062
+evidence_root_sha256=add541fef80764c8a4de63090f193f180b6fd6413e574414c6bf3062571e3f0b
+ledger_seq=7
+ledger_merkle_root_sha256=cc07235a4c9bbf1bf09010db6939a8714cecda418ca070f4bf9f7de428b9fb96
+replay_verify_command=powershell -ExecutionPolicy Bypass -File C:\Users\hp\Desktop\end-to-go\nono-gate-ci\decision\replay-verify.ps1
+evidence_bundle_zip=C:\Users\hp\Desktop\end-to-go\nono-gate-ci\decision\EVIDENCE_BUNDLE.zip
+attestation_file=C:\Users\hp\Desktop\end-to-go\nono-gate-ci\decision\decision-attestation.json
+canonical_rules=C:\Users\hp\Desktop\end-to-go\nono-gate-ci\decision\CANONICAL_RULES.md
+proof_index=C:\Users\hp\Desktop\end-to-go\nono-gate-ci\decision\PROOF_INDEX.txt

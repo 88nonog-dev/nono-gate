@@ -1,0 +1,26 @@
+﻿NONO-GATE ENTERPRISE — RELEASE ATTESTATION
+generated_at_utc=2026-02-20T19:24:21Z
+
+repo_root=C:\Users\hp\Desktop\150\nono-gate-v1__20260215_202937__FROZEN_GATE_v1_1__20260216_172512
+git_head=0aec68fa8f91ff30d4a2d553291013e9822056c5
+git_tag=v1.1.3-enterprise
+
+ledger_checkpoint_sha256=0565548d946ba6edfc782983665bd2bd0731bc4fbe2bbcdc8e7fa19d88bad387
+ledger_root_hash_sha256=e964edc3b32a4f33f0d30b271124abb5e812595c47a3d6117ed856767701e0f1
+ledger_tree_size=71
+ledger_created_utc=
+
+audit_pack_dir=C:\Users\hp\Desktop\150\AUDIT_PACK_20260220_191307
+audit_pack_fingerprint_sha256=3821e0c2e1cca9bc00a6b2422986f0d6d0f3f8143723a145f363066bf65d4939
+
+signed_zip=C:\Users\hp\Desktop\150\AUDIT_PACK_20260220_191307.zip
+signed_zip_sha256=b89500e23099d3c901235dcd5a7c849f38fe9872009ab8a79d2f7d967b401940
+minisign_signature=C:\Users\hp\Desktop\150\AUDIT_PACK_20260220_191307.zip.minisig
+
+receiver_verify_script=C:\Users\hp\Desktop\150\AUDIT_PACK_20260220_191307.zip.VERIFY_RECEIVER.ps1
+receiver_public_key=C:\Users\hp\Desktop\150\AUDIT_PACK_PUBLIC_KEY.txt
+
+ASSERTIONS:
+- Signed ZIP contains AUDIT_PACK with MANIFEST+LEDGER+VERIFY.
+- Receiver verifies SHA256 + minisign + internal AUDIT_PACK_VERIFY=PASS.
+- Ledger checkpoint derived deterministically from entries.

@@ -1,0 +1,103 @@
+﻿name: dependency-audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * 1'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install (deterministic)
+        run: npm ci --ignore-scripts --no-audit --no-fund
+
+      - name: Run npm audit (JSON)
+        run: npm audit --json > audit.json
+
+      - name: Convert audit to SARIF + Anchor
+        run: |
+          node -e "
+          const fs=require('fs');
+          const crypto=require('crypto');
+
+          const audit=JSON.parse(fs.readFileSync('audit.json','utf8'));
+          const allow=JSON.parse(fs.readFileSync('docs/dependency-allowlist.json','utf8')||'{}');
+
+          function sha256(buf){
+            return crypto.createHash('sha256').update(buf).digest('hex').toUpperCase();
+          }
+
+          const results=[];
+          let critical=0;
+
+          if(audit.vulnerabilities){
+            for(const [name,v] of Object.entries(audit.vulnerabilities)){
+              const severity=v.severity||'unknown';
+
+              if(severity==='critical' && !allow[name]) critical++;
+
+              results.push({
+                ruleId:name,
+                level: severity==='critical'?'error':severity==='high'?'error':severity==='moderate'?'warning':'note',
+                message:{text:(v.title||'dependency vulnerability')+' ('+severity+')'}
+              });
+            }
+          }
+
+          const sarif={
+            version:'2.1.0',
+            '':'https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0.json',
+            runs:[{ tool:{driver:{name:'npm-audit',rules:[]}}, results }]
+          };
+
+          fs.writeFileSync('audit.sarif',JSON.stringify(sarif,null,2));
+
+          const anchor={
+            artifact:'dependency-audit',
+            repo:process.env.GITHUB_REPOSITORY,
+            commit:process.env.GITHUB_SHA,
+            run_id:process.env.GITHUB_RUN_ID,
+            allowlist_sha256:sha256(fs.readFileSync('docs/dependency-allowlist.json')),
+            audit_json_sha256:sha256(fs.readFileSync('audit.json')),
+            audit_sarif_sha256:sha256(fs.readFileSync('audit.sarif'))
+          };
+
+          fs.writeFileSync('dependency-anchor.json',JSON.stringify(anchor,null,2));
+          fs.writeFileSync('dependency-anchor.sha256',sha256(Buffer.from(JSON.stringify(anchor,null,2))));
+
+          if(critical>0){
+            console.error('CRITICAL_VULNERABILITIES_BLOCKING='+critical);
+            process.exit(1);
+          } else {
+            console.log('DEPENDENCY_ANCHOR_OK');
+          }
+          "
+
+      - name: Upload SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: audit.sarif
+
+      - name: Upload dependency audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-audit-evidence
+          path: |
+            audit.json
+            audit.sarif
+            dependency-anchor.json
+            dependency-anchor.sha256
+            docs/dependency-allowlist.json
