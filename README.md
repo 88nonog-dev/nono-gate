@@ -67,3 +67,30 @@ Start here
 
 See START_HERE.md
 
+
+
+## Architecture Overview
+
+Nono-Gate sits between security scanners and the release boundary.
+
+Scanner Outputs (SARIF / Signals)
+            ?
+     Policy Evaluation
+            ?
+ Deterministic Decision Engine
+            ?
+     Evidence Generation
+            ?
+    Governance Ledger Entry
+            ?
+  Independent Replay Verification
+
+This architecture allows security decisions to be:
+
+- reproducible
+- independently verifiable
+- cryptographically bound to evidence
+- auditable after the fact
+
+Rather than trusting the scanner or CI logs alone, Nono-Gate enables verification of the final security decision artifact itself.
+
