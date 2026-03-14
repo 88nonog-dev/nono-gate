@@ -94,3 +94,24 @@ This architecture allows security decisions to be:
 
 Rather than trusting the scanner or CI logs alone, Nono-Gate enables verification of the final security decision artifact itself.
 
+
+
+## Security Model
+
+Nono-Gate assumes that CI environments and scanner outputs cannot always be trusted as final proof.
+
+The system therefore focuses on **verifiable decision artifacts** rather than trusting execution environments.
+
+Security properties targeted by the architecture:
+
+- deterministic decision reproduction
+- evidence binding via cryptographic hashes
+- append-only governance ledger
+- Merkle-based integrity for decision history
+- replay verification of past decisions
+- auditor-readable artifacts
+
+This model allows security reviewers to validate decisions independently from the original CI pipeline.
+
+In other words, verification does not require trusting the system that produced the decision.
+
