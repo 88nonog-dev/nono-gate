@@ -1,6 +1,0 @@
-﻿  const archShaPath = 'ARCHITECTURE_SHA256.txt';
-  if(!fs.existsSync(archShaPath)){
-    throw new Error('ARCH_SHA_FILE_MISSING');
-  }
-  const architectureHash = fs.readFileSync(archShaPath,'utf-8').trim();
-  decision.architecture_sha256 = architectureHash;

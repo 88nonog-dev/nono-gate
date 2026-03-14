@@ -1,8 +1,0 @@
-﻿{
-    "height":  14,
-    "lineage_root_sha256":  "e6e14f74c3b53a2b2e3c716bd11670285ed1927d118f9e1f01f3d34a988f919d",
-    "merkle_root_sha256":  "e0c5d02485abdb75eccd6434caf7f45475e9319eacf1ad2c47fdf8d8d9056479",
-    "schema_id":  "nono.lineage.head.v1",
-    "version":  "1.0.0",
-    "prev_entry_sha256":  "832bdbffced34aa055409ec23db5a8f8540254ebbcbe591065c3979d1dbcd3c1"
-}

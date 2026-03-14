@@ -1,3 +1,0 @@
-export function verifyReceiptFull() {
-  throw new Error("VERIFY_NOT_IMPLEMENTED");
-}
