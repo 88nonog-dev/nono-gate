@@ -2,12 +2,18 @@
 
 Write-Host "NONO-GATE INDEPENDENT VERIFICATION"
 
-$decisionPath=Join-Path $PSScriptRoot "decision\verify-decision.ps1"
+$decisionDir = Join-Path $PSScriptRoot "ci-demo\decision"
 
-if(!(Test-Path $decisionPath)){
-    throw "VERIFY_SCRIPT_NOT_FOUND"
+if(!(Test-Path $decisionDir)){
+    throw "DECISION_DIR_NOT_FOUND"
 }
 
-& $decisionPath
+Push-Location $decisionDir
+try{
+    .\verify-decision.ps1
+}
+finally{
+    Pop-Location
+}
 
 Write-Host "VERIFICATION_COMPLETE"

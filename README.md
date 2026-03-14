@@ -139,3 +139,43 @@ By binding decisions to reproducible evidence and ledger integrity, the architec
 
 This approach is particularly relevant for organizations operating high-assurance DevSecOps pipelines where release decisions must remain defensible months or years later.
 
+
+## Live Demonstration
+
+Nono-Gate includes a deterministic governance demonstration showing how security decisions can be generated, recorded, and independently verified.
+
+### Running the demo
+
+Clone the repository and run the demo scripts:
+
+git clone https://github.com/88nonog-dev/nono-gate
+cd nono-gate/demo
+
+Generate the decision artifacts:
+
+.\RUN_PROOF_DEMO.ps1
+
+Run independent verification:
+
+.\VERIFY_ONLY.ps1
+
+### Expected output
+
+NONO-GATE PROOF DEMO START
+PASS
+BLOCK
+EVIDENCE_ROOT_GENERATED
+NONO-GATE: VDR GENERATED
+NONO-GATE: LEDGER MERKLE ROOT COMPUTED
+TRANSPARENCY_LOG_UPDATED
+NONO-GATE PROOF DEMO COMPLETE
+
+NONO-GATE INDEPENDENT VERIFICATION
+DETERMINISTIC_DECISION_VERIFIED
+EVIDENCE_ROOT_PRESENT
+LEDGER_INTEGRITY_OK
+VERIFICATION_COMPLETE
+
+### What this proves
+
+This demo illustrates that a CI security decision can produce deterministic artifacts which can be independently verified without trusting CI logs.
