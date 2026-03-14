@@ -115,3 +115,27 @@ This model allows security reviewers to validate decisions independently from th
 
 In other words, verification does not require trusting the system that produced the decision.
 
+
+
+## Why this matters
+
+Many security tools focus on detection: scanners, analyzers, and policy engines.
+
+However, the final **release decision** in CI/CD is often based on logs, approvals, or tool output that cannot be independently verified later.
+
+Nono-Gate focuses on the **decision boundary itself**.
+
+Instead of asking "what did the scanner report?", the system enables teams to ask:
+
+"Can we verify the security decision that allowed this release?"
+
+By binding decisions to reproducible evidence and ledger integrity, the architecture enables:
+
+- post-release verification
+- auditor-friendly security decisions
+- reproducible governance artifacts
+- stronger supply-chain transparency
+- trust minimization in CI environments
+
+This approach is particularly relevant for organizations operating high-assurance DevSecOps pipelines where release decisions must remain defensible months or years later.
+
