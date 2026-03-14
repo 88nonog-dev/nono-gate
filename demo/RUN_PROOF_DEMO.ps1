@@ -12,8 +12,8 @@ try {
     .\decision\generate-decision.ps1
     .\decision\fingerprint-decision.ps1
     .\decision\build-evidence-root.ps1
-    Copy-Item ".\decision\EVIDENCE_ROOT_SHA256.txt" "..\EVIDENCE_ROOT_SHA256.txt" -Force
-    Copy-Item ".\decision\decision.json" "..\decision.json" -Force
+    Copy-Item ".\decision\EVIDENCE_ROOT_SHA256.txt" ".\EVIDENCE_ROOT_SHA256.txt" -Force
+    Copy-Item ".\decision\decision.json" ".\decision.json" -Force
     .\decision\build-attestation.ps1
     .\decision\generate-vdr.ps1
     .\decision\append-ledger.ps1
@@ -25,3 +25,4 @@ finally {
 }
 
 Write-Host "NONO-GATE PROOF DEMO COMPLETE"
+
